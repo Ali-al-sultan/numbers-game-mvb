@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>لوحة الأرقام</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <section id="screen-auth" class="screen">
+    <div class="auth-card">
+      <div class="brand">
+        <span class="brand-mark">٩</span>
+        <h1>لوحة الأرقام</h1>
+        <p class="tagline">اختر رقمك. راقب اللوحة. لعبة نقاط ترفيهية فقط.</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="login">دخول</button>
+        <button class="tab-btn" data-tab="register">حساب جديد</button>
+      </div>
+
+      <form id="form-login" class="auth-form">
+        <label>البريد الإلكتروني<input type="email" id="login-email" required /></label>
+        <label>كلمة المرور<input type="password" id="login-password" required /></label>
+        <button type="submit" class="btn-primary">دخول</button>
+        <p class="form-error" id="login-error"></p>
+      </form>
+
+      <form id="form-register" class="auth-form hidden">
+        <label>البريد الإلكتروني<input type="email" id="register-email" required /></label>
+        <label>كلمة المرور (6 أحرف على الأقل)<input type="password" id="register-password" required /></label>
+        <button type="submit" class="btn-primary">إنشاء الحساب</button>
+        <p class="form-error" id="register-error"></p>
+      </form>
+
+      <p class="note">تسجيل الدخول عبر جوجل سيُضاف لاحقًا.</p>
+    </div>
+  </section>
+
+  <section id="screen-main" class="screen hidden">
+
+    <header class="topbar">
+      <div class="balance">
+        <span class="balance-label">رصيدك</span>
+        <span class="balance-value mono" id="points-balance">0</span>
+        <span class="balance-unit">نقطة</span>
+      </div>
+      <button id="btn-logout" class="btn-ghost">خروج</button>
+    </header>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-view="game">اللعبة</button>
+      <button class="nav-tab" data-view="wallet">المحفظة</button>
+      <button class="nav-tab" data-view="leaderboard">الأبطال</button>
+    </nav>
+
+    <div id="view-game" class="view">
+      <div class="room-meta">
+        <span>تكلفة الاختيار: <b class="mono" id="pick-cost">-</b> نقطة</span>
+        <span id="room-status" class="status-pill">جولة مفتوحة</span>
+      </div>
+
+      <div class="board" id="board"></div>
+
+      <p class="hint">اضغط على رقم متاح لحجزه. عند اكتمال اللوحة تُختار الأرقام الرابحة عشوائيًا فورًا.</p>
+
+      <div id="result-banner" class="result-banner hidden"></div>
+
+      <h3 class="section-title">آخر الجولات</h3>
+      <ul id="recent-rounds" class="recent-list"></ul>
+    </div>
+
+    <div id="view-wallet" class="view hidden">
+      <div class="wallet-card">
+        <h3>شراء نقاط عبر USDT</h3>
+        <p class="muted">حوّل المبلغ إلى عنوان المحفظة أدناه، ثم أرسل رقم عملية التحويل (TXID) والمبلغ. تتم المراجعة والتأكيد يدويًا خلال وقت قصير.</p>
+
+        <div class="wallet-address">
+          <span class="mono" id="wallet-address-text">TXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx (ضع عنوان محفظتك هنا)</span>
+          <button id="btn-copy-address" class="btn-ghost small">نسخ</button>
+        </div>
+
+        <form id="form-deposit">
+          <label>رقم عملية التحويل (TXID)<input type="text" id="deposit-txid" required /></label>
+          <label>المبلغ بالـ USDT<input type="number" step="0.01" min="0.01" id="deposit-amount" required /></label>
+          <button type="submit" class="btn-primary">إرسال طلب الإيداع</button>
+          <p class="form-error" id="deposit-error"></p>
+          <p class="form-success" id="deposit-success"></p>
+        </form>
+        <p class="muted small">النقاط تُستخدم داخل التطبيق فقط للعب، ولا يمكن سحبها أو تحويلها لاحقًا إلى نقود.</p>
+      </div>
+    </div>
+
+    <div id="view-leaderboard" class="view hidden">
+      <h3 class="section-title">الأبطال (الأعلى نقاط ترتيبية)</h3>
+      <ol id="leaderboard-list" class="leaderboard-list"></ol>
+    </div>
+
+  </section>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
